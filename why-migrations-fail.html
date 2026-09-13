@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Why Mainframe Migrations Fail | Bylazora</title>
+<meta name="description" content="Bylazora - governed, AI-enabled mainframe migration to GPU/CPU-enabled cloud.">
+<link rel="stylesheet" href="assets/style-v4.css">
+</head>
+<body>
+<header class="site-header"><div class="wrap">
+<a class="brand" href="index.html">Bylazora</a>
+<nav><a href="index.html">Home</a><a href="index.html#evidence">Evidence</a><a href="index.html#economics">Economics</a><a href="index.html#contact">Contact</a></nav>
+</div></header>
+<main class="doc wrap"><h1>Why mainframe migrations fail</h1>
+<h2>And the mechanism that makes ours falsifiable</h2>
+<p><strong>Bylazora - bylazora.com</strong></p>
+<hr>
+<p>Every documented mainframe migration failure has the same shape: the new system was judged by inspection, and the first machine-checked test happened on production, in front of customers. This paper maps the named failures to the mechanisms Bylazora ships, so the claim is concrete: each of these would have failed our gate before cutover, not after.</p>
+<h2>1. TSB, 2018: validated by inspection, fined by regulators</h2>
+<p>A UK bank's core migration locked 1.9 million customers out of their accounts for weeks, required over GBP 360 million of remediation, and ended in a GBP 48.65 million regulator fine. The post-mortems (<a href="https://www.computerweekly.com/news/252443551/IBM-early-findings-on-disastrous-TSB-core-banking-system-migration-released">IBM's findings</a>, <a href="https://www.theguardian.com/business/2019/nov/19/tsb-it-meltdown-report-computer-failure-accounts">the Slaughter and May report</a>, <a href="https://www.thisismoney.co.uk/money/markets/article-11557371/TSB-fined-nearly-49m-City-regulators-botched-upgrade.html">the FCA fine</a>) agree on the root cause: the migrated system was tested for function, never proven for equivalence. Behaviour was checked by eye and by sampling.</p>
+<p><strong>The Bylazora mechanism:</strong> acceptance is mechanical, not inspected. Every migrated job must reproduce its legacy reference output byte for byte, across the full corpus, enforced on every run. A system with TSB's defect profile fails the validator in the test environment - where a failure costs an afternoon, not a regulator.</p>
+<h2>2. KCB, 2024: wrong balances are a data-fidelity failure</h2>
+<p>Kenya Commercial Bank customers <a href="https://techcabal.com/2024/11/05/kcb-customers-overdraw-accounts-by-7-7-million/">overdrew accounts by USD 7.7 million</a> during a migration whose glitches produced incorrect balances. The failure class is numeric: somewhere between the legacy and the new system, money stopped being exact.</p>
+<p><strong>The Bylazora mechanism:</strong> money travels as integer cents end to end - no float drift, by construction - and the output contract is byte-level: field values, totals, ordering, formatting. The validator would have flagged the wrong-balance outputs the first time they were produced, with a diff naming the account and the cents.</p>
+<h2>3. Suncorp: the multi-year write-off</h2>
+<p>Suncorp's core system replacement was <a href="https://www.itnews.com.au/news/suncorps-oracle-core-finally-junked-leaves-90m-crater-547982">finally junked after years, leaving a AUD 90 million crater</a>. Big-bang platform replacement compounds risk: every job must work before any job ships.</p>
+<p><strong>The Bylazora mechanism:</strong> migration is per job, not per platform. Each function carries its own byte-exact proof and its own cutover, so a failing function is found and bounded early. Nothing about the approach requires a big-bang date to be survived.</p>
+<h2>4. Westpac: when the brake is the strategy</h2>
+<p>Westpac <a href="http://www2.computerworld.co.nz/article/print/496763/westpac_slams_brakes_core_system_change/">slammed the brakes on a core system change</a> rather than ride it into production - the rational response to a migration whose risk cannot be measured. The brake is expensive, and it is what every team does when the only verification tool is judgement.</p>
+<p><strong>The Bylazora mechanism:</strong> risk becomes measurable. Dual-run shadowing reconciles legacy and target outputs continuously, and every function is reversible until its decommission order is signed. Teams get evidence to decide with, instead of a brake to pull.</p>
+<h2>5. The industry odds, and the disciplines that beat them</h2>
+<p>Gartner's much-cited forecast - 70% of mainframe-exit efforts failing or being abandoned (<a href="https://www.zengines.ai/resource-collection/mainframe-modernization-gartner-70-percent-fail">summary</a>) - is the aggregate of the cases above. The known-good disciplines that reduce the odds are documented independently: <a href="https://plavno.io/company/insights/google-cloud-mainframe-migration-dual-run">dual-run risk control</a> and <a href="https://dev.to/banuap/zero-variance-proving-cobol-to-java-semantic-equivalence-with-a-live-mainframe-emulator-on-aws-1ani">semantic equivalence testing</a>. Bylazora productises both, and adds the part the industry does not publish: the byte-exact validator as the standing acceptance criterion, plus the correctness contract (float drift, look-ahead leakage, and non-idempotence are refused, not cautioned against).</p>
+<h2>6. The honest other side: staying is also failing</h2>
+<p>The failure case on the stay side is measured too: legacy systems cost the US <a href="https://www.ft.com/content/7610a755-27e3-4792-a337-27d9b301000b">at least USD 40 billion during Covid</a>, and <a href="https://www.atlantafed.org/research-and-data/publications/working-papers/2025/10/16/14-coboling-together-ui-benefits-how-delays-in-fiscal-stabilizers-affect-aggregate-consumption">COBOL-era unemployment systems delayed benefits</a> for the people who needed them most. Inaction has a price; the Bylazora answer to that price is the profiling step: measure the estate, then choose the target state on evidence.</p>
+<h2>The falsifiable claim</h2>
+<p>Every failure above was discovered by customers or regulators. Ours would be discovered by a test run, because the acceptance criterion is a comparison of bytes, not a comparison of confidence. That is the entire argument: <strong>proof, not percentages - and the proof is falsifiable on your hardware, before cutover.</strong></p>
+<hr>
+<p><em>Sources are linked inline and cited in the Evidence Annex. Figures are the named cases' published numbers, not Bylazora estimates.</em></p></main>
+<footer class="site-footer"><div class="wrap">(c) 2026 Bylazora. bylazora.com - Proof, not percentages.</div></footer>
+</body>
+</html>

@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bylazora - Governed Mainframe Migration to GPU/CPU Cloud</title>
+<meta name="description" content="Bylazora ships the migration engine: a licensable library that moves COBOL mainframe estates to commodity hardware - CPU-only or any GPU, with or without NVIDIA - under byte-exact proof that nothing changed but the platform.">
+<link rel="stylesheet" href="assets/style-v4.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="index.html">Bylazora</a>
+    <nav>
+      <a href="#evidence">Proof</a>
+      <a href="#paths">The engine</a>
+      <a href="#equivalence">The gate</a>
+      <a href="licence.html">Licence</a>
+      <a href="managed-run.html">Managed run</a>
+      <a href="community.html">Community</a>
+      <a href="#contact" class="nav-cta">Book a proof trial</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <p class="kicker">The migration you can prove &middot; Open source, AGPL &middot; Proof, not percentages</p>
+    <h1>The migration<br>you can <span class="accent">prove</span>.</h1>
+    <p class="lede">Bylazora is the byte-exact migration engine, open source under AGPL: a migrated workload's outputs must equal the legacy COBOL reference byte for byte, or the gate fails it. One Rust binary runs the gate and the production runtime across CPU, any GPU, and CUDA &mdash; measured 68.8x at one billion rows, every run IDENTICAL. Read the proof, clone the engine, or have us run your exit.</p>
+    <div class="hero-ctas">
+      <a class="btn btn-primary" href="evidence.html">Read the proof</a>
+      <a class="btn btn-ghost" href="https://github.com/bylazora">Start migrating</a>
+      <a class="btn btn-ghost" href="#contact">Book a proof trial</a>
+    </div>
+  </div>
+</section>
+
+<section class="stats">
+  <div class="wrap stats-grid">
+    <div class="stat"><div class="stat-num">68.8&times;</div><div class="stat-label">CUDA tier at 1B rows, byte-exact against COBOL</div></div>
+    <div class="stat"><div class="stat-num">28.1&times;</div><div class="stat-label">CPU-only at 1B rows - no GPU required</div></div>
+    <div class="stat"><div class="stat-num">100%</div><div class="stat-label">of migrated runs byte-exact against the reference, every scale</div></div>
+    <div class="stat"><div class="stat-num">AGPL</div><div class="stat-label">the engine is open source; the parsers are Apache-2.0</div></div>
+  </div>
+</section>
+
+<section id="problem" class="section">
+  <div class="wrap">
+    <h2>Why now</h2>
+    <div class="three-col">
+      <div class="card">
+        <h3>The skills cliff</h3>
+        <p>An estimated 220&ndash;800 billion lines of COBOL remain in production. The average COBOL developer is in their late 50s, roughly 10% retire every year, and about 70% of universities no longer teach the language.</p>
+      </div>
+      <div class="card">
+        <h3>The cost trajectory</h3>
+        <p>Mainframe software is typically 30&ndash;50% of the total mainframe budget, large estates pay roughly $1,000&ndash;2,000 per MIPS per year, and pricing keeps trending up.</p>
+      </div>
+      <div class="card">
+        <h3>The exit risk</h3>
+        <p>Migration is the highest-stakes project an enterprise runs. The industry's failures &mdash; a UK bank locked 1.9M customers out in 2018 &mdash; happened because systems were validated by inspection, not by proof.</p>
+      </div>
+    </div>
+    <p class="note">We are equally honest about the other side: mainframes are reliable and cheap per workload. Our argument is the skills cliff, the licensing trajectory, and the strategic cost of lock-in &mdash; not that the mainframe is broken.</p>
+  </div>
+</section>
+
+<section id="paths" class="section alt">
+  <div class="wrap">
+    <h2>Three paths off the mainframe</h2>
+    <p class="section-lede">The workload's own characteristics decide which path it takes. We deliver all three.</p>
+    <div class="three-col">
+      <div class="card">
+        <h3>Move off COBOL</h3>
+        <p>Business logic re-implemented in a modern stack &mdash; a Rust core with parallel chunked reads and GPU-native kernels &mdash; on commodity hardware, NVIDIA or not. Removes the COBOL dependency entirely, unlocks modern tooling and AI integration.</p>
+      </div>
+      <div class="card">
+        <h3>Take COBOL to the cloud</h3>
+        <p>The same source, compiled by open-source GnuCOBOL on commodity instances, with JCL batch orchestration re-expressed as cloud-native schedulers. Fastest and lowest-risk; modernize function by function later.</p>
+      </div>
+      <div class="card">
+        <h3>The AI-enabled route</h3>
+        <p>AI reads the estate &mdash; code, copybooks, JCL, runbooks &mdash; extracts business rules, and drafts translations and test suites. Humans review and sign every artifact; the equivalence gate verifies it. AI proposes; the gate disposes.</p>
+      </div>
+    </div>
+    <table>
+      <tr><th>Workload characteristic</th><th>Path</th></tr>
+      <tr><td>High data volume, aggregations, ETL-heavy</td><td>Move off COBOL &mdash; GPU/CPU tier</td></tr>
+      <tr><td>Logic-dense, low volume, thin test coverage</td><td>Rehost COBOL on cloud</td></tr>
+      <tr><td>Regulatory freeze, zero tolerance for change</td><td>Rehost COBOL on cloud</td></tr>
+      <tr><td>Medium complexity, staged transition</td><td>AI-assisted, then per-function decision</td></tr>
+    </table>
+  </div>
+</section>
+
+<section id="cycle" class="section">
+  <div class="wrap">
+    <h2>The governed migration cycle</h2>
+    <p class="section-lede">Seven phases. Governance artifacts at every step, inspectable by you at any time.</p>
+    <ol class="cycle">
+      <li><strong>Grab</strong> &mdash; we take custody of your code and documentation with provenance and access controls.</li>
+      <li><strong>Review</strong> &mdash; AI-assisted analysis builds the function inventory: what each program does, what it touches, what is dead code.</li>
+      <li><strong>Rebuild</strong> &mdash; each function is re-implemented, recompiled, or AI-drafted-then-engineered onto its assigned tier. Logic is preserved 1:1 in semantics.</li>
+      <li><strong>Deploy</strong> &mdash; functions become containerized jobs on the target platform, orchestrated by a scheduler that preserves batch windows and dependencies.</li>
+      <li><strong>Migrate data</strong> &mdash; DB2 tables, VSAM files, and generation datasets move to canonical formats with fixed-point decimal semantics preserved exactly, at the precision the schema declares &mdash; no float drift.</li>
+      <li><strong>Test</strong> &mdash; the equivalence gate: every function must reproduce its legacy output byte-for-byte, continuously enforced. One differing byte is a failure.</li>
+      <li><strong>Roll over</strong> &mdash; dual-run shadowing against production, reconciliation, then per-function cutover. Every step reversible until sign-off.</li>
+    </ol>
+  </div>
+</section>
+
+<section id="licence" class="section">
+  <div class="wrap">
+    <h2>The engine is free. The run is how we get paid.</h2>
+    <p class="section-lede">The byte-exact gate, the three tiers, and the parsers are open source &mdash; AGPL for the engine, Apache-2.0 for the parsers. Anyone can read the validator, run it, and prove their own migration. Bylazora earns its keep on what surrounds the code: the managed run, the commercial licence for AGPL-averse estates, and the migration service.</p>
+    <div class="three-col">
+      <div class="card">
+        <h3>The open engine</h3>
+        <p class="tier">AGPL-3.0 / Apache-2.0</p>
+        <p>Clone it, build it, hand it to your agents. The gate is the product and the product is free: byte-exact verification, three compute tiers, the C ABI, the MCP interface, and the agent rule packs. Forever.</p>
+        <p><a class="btn btn-primary" href="https://github.com/bylazora">GitHub</a> <a class="btn btn-ghost" href="sample/bylazora-sample-migration.tar.gz">Sample migration</a></p>
+        <p class="sig">SHA-256 + Ed25519 signed; verifiable offline with <a href="sample/bylazora-release-key.pem">the public key</a>.</p>
+      </div>
+      <div class="card">
+        <h3>The commercial licence</h3>
+        <p class="tier">USD 4,900/year per production team</p>
+        <p>For estates that cannot accept AGPL, or that embed the engine in closed products: a commercial licence with support, covering the organisation's own and client workloads at any scale and any number of installs. Offline-signed key, verified locally, air-gapped by construction.</p>
+        <p><a href="licence.html">How the licence works</a></p>
+      </div>
+      <div class="card">
+        <h3>The managed run</h3>
+        <p class="tier">Subscription</p>
+        <p>Hosted execution, the dashboards, the tamper-flagged audit trail, scale tiers, and SLAs &mdash; the run, not the bytes. Buy it with a card; the key lands in your portal and your inbox, then one command installs it.</p>
+        <p><a href="managed-run.html">See the managed run</a></p>
+      </div>
+    </div>
+    <p class="note">What is in the box: the byte-exact validator, the three-tier engine (CPU, wgpu, cudarc), the C ABI, the MCP server, the copybook parser and DB2 importer, the judge harness, the sample migration, and the evidence annex. What stays ours: the playbook, the corpora, the replication recipes, and pricing &mdash; the know-how, not the code. And the AI boundary: your assistant can operate the engine through its MCP interface, propose, and measure &mdash; it cannot mark a job proven. Only the validator can.</p>
+  </div>
+</section>
+
+<section id="equivalence" class="section alt">
+  <div class="wrap two-col">
+    <div>
+      <h2>Proof, not percentages</h2>
+      <p>Vendors market automation rates &mdash; &ldquo;99.7% automated&rdquo;. An automation rate is a claim about effort. It says nothing about correctness.</p>
+      <p>Our acceptance criterion is mechanical: <strong>exact fixed-point arithmetic</strong> (money stays integer cents, provably exact), <strong>byte-exact outputs</strong> (field values, totals, ordering, formatting), and <strong>continuous enforcement</strong> (the check runs in CI, in benchmarks, and during dual-run).</p>
+      <p class="pullquote">We do not promise a percentage. We promise a measurement.</p>
+    </div>
+    <div class="codeblock">
+      <pre><code>compare_outputs(legacy, migrated)
+final_balances.csv     IDENTICAL
+summary_report.csv     IDENTICAL
+
+60/60 records validated
+0 mismatches</code></pre>
+    </div>
+  </div>
+</section>
+
+<section id="lifecycle" class="section">
+  <div class="wrap">
+    <h2>Not a test at the end</h2>
+    <p class="section-lede">The engine is the runtime of the new solution. Six positions in a migration, one tool:</p>
+    <table class="roadmap">
+      <tr><td>Specify</td><td>Golden reference</td><td>Build inside the gate</td><td>Route by benchmark</td><td>Cut over, running</td><td>Stay proven</td></tr>
+      <tr><td>Every job becomes a specification with a byte-level output contract</td><td>Legacy outputs and timings captured once - the contract everything is built against</td><td>Developers build backends of the engine; every iteration returns a byte diff, not a hunch</td><td>The harness measures each backend on candidate hardware; profiling picks the target state</td><td>The same binary that validated the jobs runs them; dual-run reconciles continuously</td><td>Every nightly run passes the gate; drift fails loudly with a diff</td></tr>
+    </table>
+    <p class="note">The migrated system does not merely pass a test once. It runs on the engine that tests it &mdash; and the gate is the safety system of the new estate.</p>
+  </div>
+</section>
+
+<section id="correctness" class="section alt">
+  <div class="wrap">
+    <h2>The correctness contract</h2>
+    <p class="section-lede">Three failure classes break every home-grown migration - and one more worry breaks every AI-drafted one. Each is neutralised here by a gate, not a habit.</p>
+    <div class="three-col">
+      <div class="card">
+        <h3>Floating-point drift</h3>
+        <p>Float intermediates silently corrupt money. The legacy reference computes in exact fixed-point and the validator requires identical bytes &mdash; no epsilon, no tolerance. A float artifact is a failed job with a diff, and a planted corpus that crosses 2^53 proves the gate catches it.</p>
+      </div>
+      <div class="card">
+        <h3>Future-data leakage</h3>
+        <p>Windows that see tomorrow corrupt every calculation downstream. Backends run as pure functions of their declared inputs in fresh processes, windows are trailing-only by contract, and a planted look-ahead trap fails any implementation that peeks.</p>
+      </div>
+      <div class="card">
+        <h3>Non-idempotent runs</h3>
+        <p>The same job run twice must return the same bytes. The harness re-runs every backend and byte-compares repetitions; warm and cold cache runs must agree; seeds are fixed and cross-machine reproductions are byte-identical by assertion.</p>
+      </div>
+      <div class="card">
+        <h3>Hallucinated code</h3>
+        <p>AI-drafted migrations are verified by output, not provenance. The gate compares bytes against the legacy reference, so a hallucination fails with a diff before it can ship. The agent proposes; the gate disposes.</p>
+      </div>
+    </div>
+    <p class="note">Why we can claim this: before the migration engine, we built quant and ML infrastructure at scale and made every one of these mistakes the expensive way. We catalogued the lessons, then rebuilt them as machine-checkable gates. The library does not ask your team to be careful &mdash; it refuses to certify anything else.</p>
+  </div>
+</section>
+
+<section id="evidence" class="section">
+  <div class="wrap">
+    <h2>The evidence</h2>
+    <p class="section-lede">A representative COBOL batch program &mdash; per-account aggregation over transaction files &mdash; certified on the shipped Rust engine across three tiers and four scales, up to one billion rows: the CPU tier, the vendor-neutral wgpu GPU tier, and the CUDA container tier. Every output byte-identical to the COBOL reference. Three tiers share one parallel chunked host read (0.3.1): the cudarc CUDA tier leads on NVIDIA (68.8x at 1B, 8.75s), the wgpu tier holds 61.3x on any GPU or none, and the CPU tier 28.1x with no GPU.</p>
+    <table>
+      <tr><th>Scale</th><th>COBOL (baseline)</th><th>CPU tier (Rust)</th><th>GPU tier (wgpu, any GPU)</th><th>GPU tier (CUDA)</th></tr>
+      <tr><td>1M rows</td><td>1.00x</td><td>26.3x</td><td><strong>39.5x</strong></td><td>39.5x</td></tr>
+      <tr><td>10M rows</td><td>1.00x</td><td><strong>48.5x</strong></td><td><strong>48.5x</strong></td><td>44.5x</td></tr>
+      <tr><td>100M rows</td><td>1.00x</td><td>25.5x</td><td>36.1x</td><td><strong>60.4x</strong></td></tr>
+      <tr><td>1B rows</td><td>1.00x</td><td>28.1x</td><td>61.3x</td><td><strong>68.8x</strong></td></tr>
+    </table>
+    <img class="chart" src="assets/benchmark-chart-v7.png" alt="Benchmark chart: wall time by scale and tier, log scale">
+    <p class="note">The honest detail: the read path is the whole game, and all three tiers now share the same 8-thread parallel chunked reader (0.3.1). The cudarc CUDA tier holds 68.8x at 1B rows &mdash; 8.75s against the COBOL reference's 601.6s &mdash; the wgpu tier 61.3x on the same card or none, and the CPU tier 28.1x with no GPU. The RAPIDS container the cudarc tier replaces measured 0.2x at 1M and 8.9x at 1B; those numbers are provenance in the annex, and the container remains the escape hatch for arbitrary jobs. The vendor-neutral wgpu tier is byte-exact on NVIDIA, and on software Vulkan with no GPU at all &mdash; the same binary runs on AMD, Intel, Apple, and the web. We publish the crossover because it feeds profiling, not verdicts: the ratios say what is worth testing on each tier. The migration team balances infrastructure and cloud options, job complexity, and batch size to choose the best value-for-money target state. You never pay for acceleration that does not accelerate.</p>
+  </div>
+</section>
+
+<section id="scaling" class="section alt">
+  <div class="wrap">
+    <h2>Peak-proven scaling</h2>
+    <p class="section-lede">The test every migrated platform must pass: the day demand hits ten times normal. Tax time for a revenue agency. Month-end for a bank.</p>
+    <div class="three-col">
+      <div class="card">
+        <h3>Online demand</h3>
+        <p>Migrated online workloads become stateless, horizontally-scalable services behind load balancers. Auto-scaling on request rate and latency SLOs; the data tier scales independently. Capacity is rehearsed against replays of captured production peak traffic.</p>
+      </div>
+      <div class="card">
+        <h3>Batch demand</h3>
+        <p>GPU and CPU node pools pre-warm before the season opens and expand with the work queue. Spot fleets add cost-efficient burst capacity for checkpointable jobs; reserved capacity guarantees the floor. Sharded workloads add shards.</p>
+      </div>
+      <div class="card">
+        <h3>The capacity contract</h3>
+        <p>For every peak season we deliver the demand forecast from your run statistics, the capacity plan, the pre-warm runbook, SLOs with alerting &mdash; and the seasonal cost model. Peak days become a planned, budgeted, rehearsed event.</p>
+      </div>
+    </div>
+    <p class="note">Beyond one GPU: workloads shard by business key &mdash; account, customer, policy &mdash; never by time, preserving inter-row semantics per shard. On commodity hardware the cudarc CUDA tier processed 100M rows in 0.92 seconds and 1B rows in 8.75 seconds end to end (60.4x and 68.8x the compiled COBOL baseline), the wgpu tier 1.54s and 9.8s (36.1x and 61.3x), and the CPU tier 2.18s and 21.4s. Larger estates partition across GPUs and nodes with near-linear scaling. Absolute seconds vary by machine; the ratios travel.</p>
+  </div>
+</section>
+
+<section id="timeline" class="section alt">
+  <div class="wrap">
+    <h2>The six-month program</h2>
+    <p class="section-lede">A representative estate, end to end, in six months. The calendar is fixed; the scope scales through parallel migration waves &mdash; each one safe because every function carries its own byte-exact proof.</p>
+    <table>
+      <tr><th>Program phase</th><th>Weeks</th><th>What happens</th></tr>
+      <tr><td>Grab + Review (discovery)</td><td>1&ndash;4</td><td>Code and documentation intake; AI-assisted inventory; hot-path ranking; data-interface catalog; replication test environment</td></tr>
+      <tr><td>Rebuild + Deploy + Migrate data</td><td>5&ndash;16</td><td>Parallel migration waves &mdash; every function re-implemented or rehosted on its tier and equivalence-proven before it proceeds</td></tr>
+      <tr><td>Test + shadow run</td><td>17&ndash;20</td><td>Dual-run against production through a full business cycle, reconciled continuously</td></tr>
+      <tr><td>Roll over + decommission</td><td>21&ndash;24</td><td>Per-function cutover, parallel-run sign-off, decommissioning, handover</td></tr>
+      <tr><td>Managed run (ongoing)</td><td>25+</td><td>SLO-managed operation, seasonal peak plans, continuous equivalence monitoring</td></tr>
+    </table>
+  </div>
+</section>
+
+<section id="economics" class="section">
+  <div class="wrap">
+    <h2>Indicative economics</h2>
+    <div class="two-col">
+      <div>
+        <h3>The platform</h3>
+        <p>A worked example: nightly batch of 100M transactions, 3 hours of daily processing, one L40S-class GPU instance (18,176 CUDA cores) plus one CPU instance, 2 TB object storage, 200 GB monthly egress.</p>
+        <p><strong>Roughly $380/month</strong> on AWS on-demand, before spot and commitment discounts &mdash; an 87&ndash;95% reduction against a conservative $3,000&ndash;8,000/month mainframe allocation. Commodity and non-NVIDIA GPU capacity generally prices below dedicated NVIDIA instances, and the wgpu tier runs on either &mdash; the profiling step prices the difference per estate.</p>
+      </div>
+      <div>
+        <h3>Our engagement</h3>
+        <p>Fixed-fee, value-anchored pricing - quoted against your assessed function inventory, not hours, and shared at proposal stage. The acceptance criterion is contractual and unchanged: byte-exact equivalence and the benchmark evidence.</p>
+        <p>Every engagement begins with a fixed-price proof trial: one representative job from your estate, reproduced byte-exact on your hardware, benchmarked across CPU and any GPU, with the gate demonstrated live. The trial fee is credited in full against the first migration wave.</p>
+      </div>    </div>
+    <p class="note">Acceptance criteria are contractual: byte-exact equivalence and the benchmark evidence. All figures are indicative planning ranges, not quotes.</p>
+  </div>
+</section>
+
+<section id="contact" class="section cta">
+  <div class="wrap">
+    <h2>Start with a proof trial</h2>
+    <p>The proof trial takes one representative job and an afternoon: byte-exact reproduction, benchmarks across CPU and any GPU, the live gate demo &mdash; with no production change. The trial fee is credited in full against the first migration wave.</p>
+    <p class="contact-line">Email: <a href="mailto:hello@bylazora.com">hello@bylazora.com</a></p>
+    <p class="contact-line"><a class="btn btn-primary" href="white-paper.html">Read The Engine</a> <a class="btn btn-ghost" href="white-paper-governed-exit.html">The Governed Exit (method)</a> <a class="btn btn-ghost" href="evidence.html">The Evidence Annex</a> <a class="btn btn-ghost" href="why-migrations-fail.html">Why migrations fail</a></p>
+    <p class="contact-line"><a class="btn btn-ghost" href="sample/bylazora-sample-migration.tar.gz">Download the sample migration</a> &mdash; a COBOL batch application and its migrated Rust engine, with the byte-exact gate as its CI regression test.</p>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="wrap">(c) 2026 Bylazora &middot; bylazora.com &middot; Proof, not percentages.</div>
+</footer>
+
+</body>
+</html>
