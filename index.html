@@ -5,21 +5,25 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Bylazora - Governed Mainframe Migration to GPU/CPU Cloud</title>
 <meta name="description" content="Bylazora ships the migration engine: a licensable library that moves COBOL mainframe estates to commodity hardware - CPU-only or any GPU, with or without NVIDIA - under byte-exact proof that nothing changed but the platform.">
-<link rel="stylesheet" href="assets/style-v5.css">
+<link rel="stylesheet" href="assets/style-v6.css">
 </head>
 <body>
 
 <header class="site-header">
   <div class="wrap">
-    <a class="brand" href="index.html">Bylazora</a>
-    <nav>
-      <a href="#evidence">Proof</a>
-      <a href="#paths">The engine</a>
-      <a href="#equivalence">The gate</a>
-      <a href="licence.html">Licence</a>
-      <a href="managed-run.html">Managed run</a>
-      <a href="community.html">Community</a>
-      <a href="#contact" class="nav-cta">Book a proof trial</a>
+    <div class="screen-title">
+      <a class="brand" href="index.html">BYLAZORA</a>
+      <span class="screen-sub">GOVERNED MAINFRAME MIGRATION</span>
+      <span class="screen-right">PROOF, NOT PERCENTAGES</span>
+    </div>
+    <nav class="pf-row">
+      <a href="#evidence"><span class="pf-key">1=</span>PROOF</a>
+      <a href="#paths"><span class="pf-key">2=</span>ENGINE</a>
+      <a href="#equivalence"><span class="pf-key">3=</span>GATE</a>
+      <a href="licence.html"><span class="pf-key">4=</span>LICENCE</a>
+      <a href="managed-run.html"><span class="pf-key">5=</span>MANAGED RUN</a>
+      <a href="community.html"><span class="pf-key">6=</span>COMMUNITY</a>
+      <a class="is-cta" href="#contact"><span class="pf-key">7=</span>PROOF TRIAL</a>
     </nav>
   </div>
 </header>
@@ -27,7 +31,7 @@
 <section class="hero">
   <div class="wrap">
     <p class="kicker">The migration you can prove &middot; Open source, AGPL &middot; Proof, not percentages</p>
-    <h1>The migration<br>you can <span class="accent">prove</span>.</h1>
+    <h1>The migration<br>you can <span class="accent">prove</span>.<span class="cursor" aria-hidden="true"></span></h1>
     <p class="lede">Bylazora is the byte-exact migration engine, open source under AGPL: a migrated workload's outputs must equal the legacy COBOL reference byte for byte, or the gate fails it. One Rust binary runs the gate and the production runtime across CPU, any GPU, and CUDA: measured 68.8x at one billion rows, every run IDENTICAL. Read the proof, clone the engine, or have us run your exit.</p>
     <div class="hero-ctas">
       <a class="btn btn-primary" href="evidence.html">Read the proof</a>
@@ -213,7 +217,15 @@ summary_report.csv     IDENTICAL
       <tr><td>100M rows</td><td>1.00x</td><td>25.5x</td><td>36.1x</td><td><strong>60.4x</strong></td></tr>
       <tr><td>1B rows</td><td>1.00x</td><td>28.1x</td><td>61.3x</td><td><strong>68.8x</strong></td></tr>
     </table>
-    <img class="chart" src="assets/benchmark-chart-v8.png" alt="Benchmark chart: wall time by scale and tier, log scale">
+    <p class="field" style="margin-top:26px">Wall time in seconds, measured, lower is better</p>
+<div class="ascii-table" role="img" aria-label="Wall time in seconds by scale and tier: 1M rows 0.79 0.03 0.02 0.02; 10M rows 5.34 0.11 0.11 0.12; 100M rows 55.59 2.18 1.54 0.92; 1B rows 601.56 21.40 9.82 8.75, for COBOL baseline, CPU tier, wgpu tier and CUDA tier respectively."><pre><code>| SCALE     | COBOL       | CPU TIER    | GPU TIER    | GPU TIER        |
+|           | (BASELINE)  | (RUST)      | (WGPU)      | (CUDA, CUDARC)  |
++-----------+-------------+-------------+-------------+-----------------+
+| 1M ROWS   |        0.79 |        0.03 |        0.02 |        0.02     |
+| 10M ROWS  |        5.34 |        0.11 |        0.11 |        0.12     |
+| 100M ROWS |       55.59 |        2.18 |        1.54 |        0.92     |
+| 1B ROWS   |      601.56 |       21.40 |        9.82 |        8.75     |
++-----------+-------------+-------------+-------------+-----------------+</code></pre></div>
     <p class="note">The honest detail: the read path is the whole game, and all three tiers now share the same 8-thread parallel chunked reader (0.3.1). The cudarc CUDA tier holds 68.8x at 1B rows (8.75s against the COBOL reference's 601.6s), the wgpu tier 61.3x on the same card or none, and the CPU tier 28.1x with no GPU. The RAPIDS container the cudarc tier replaces measured 0.2x at 1M and 8.9x at 1B; those numbers are provenance in the annex, and the container remains the escape hatch for arbitrary jobs. The vendor-neutral wgpu tier is byte-exact on NVIDIA, and on software Vulkan with no GPU at all: the same binary runs on AMD, Intel, Apple, and the web. We publish the crossover because it feeds profiling, not verdicts: the ratios say what is worth testing on each tier. The migration team balances infrastructure and cloud options, job complexity, and batch size to choose the best value-for-money target state. You never pay for acceleration that does not accelerate.</p>
   </div>
 </section>
@@ -283,8 +295,18 @@ summary_report.csv     IDENTICAL
   </div>
 </section>
 
+<p class="eos">*** END OF SCREEN ***</p>
+
 <footer class="site-footer">
-  <div class="wrap">(c) 2026 Bylazora &middot; bylazora.com &middot; Proof, not percentages.</div>
+  <div class="wrap">
+    <p class="pf-legend">
+      <a href="white-paper.html"><span class="pf-key">PF1</span>=HELP</a>
+      <a href="index.html"><span class="pf-key">PF3</span>=EXIT</a>
+      <a href="index.html" onclick="history.back();return false;"><span class="pf-key">PF7</span>=BACK</a>
+      <a href="index.html" onclick="history.forward();return false;"><span class="pf-key">PF8</span>=FWD</a>
+    </p>
+    <p class="copyright">(c) 2026 Bylazora &middot; bylazora.com &middot; Proof, not percentages.</p>
+  </div>
 </footer>
 
 </body>
