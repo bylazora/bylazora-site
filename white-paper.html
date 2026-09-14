@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>The Engine - Mainframe Migration Library | Bylazora</title>
 <meta name="description" content="Bylazora - governed, AI-enabled mainframe migration to GPU/CPU-enabled cloud.">
-<link rel="stylesheet" href="assets/style-v4.css">
+<link rel="stylesheet" href="assets/style-v5.css">
 </head>
 <body>
 <header class="site-header"><div class="wrap">
@@ -27,22 +27,22 @@
 <p>The origin story: before the migration engine, Bylazora built quant and ML infrastructure at scale and made every one of these mistakes the expensive way. The library is the aftermath - each lesson became a machine-checkable gate rather than a coding standard. It does not ask your team to be careful; it refuses to certify anything else.</p>
 <h2>1. What is in the box</h2>
 <ul>
-<li><strong>The JobSpec contract.</strong> One file per migrated job: inputs and schemas, the byte-level output contract (exact headers, field widths, ordering, totals rows, line endings), the run interface, and the validation and benchmark configuration. The same spec drives discovery, rebuild, test, and shadow run.</li>
-<li><strong>The byte-exact validator.</strong> Compares every declared output file against the legacy reference, byte for byte, with a diff attached to any mismatch. A missing reference means unvalidated - never proven.</li>
-<li><strong>The benchmark harness.</strong> Cold-cache repetitions, backend dispatch, per-run validation gating, and machine metadata recorded with every result.</li>
-<li><strong>The report generator.</strong> Speedup tables, log-scale charts, per-run records - the evidence your steering committee sees.</li>
-<li><strong>Backend templates.</strong> GnuCOBOL rehost and the Rust engine - CPU tier, wgpu GPU tier, cudarc CUDA tier - each an independent implementation of the same contract, instantiable per job.</li>
-<li><strong>Estate intake.</strong> The copybook parser (P1) turns COBOL record layouts into schemas with fixed-point fidelity, and the DB2 importer (P2) reads catalog schemas and DEL unloads into canonical inputs - money arrives as integer cents, never float.</li>
-<li><strong>Seeded synthetic generators.</strong> The DB2-unload pattern for building deterministic test corpora.</li>
-<li><strong>CLI, native binaries, container.</strong> spec init, validate, benchmark, and report on the command line; a single native binary for the CPU tier; a pinned container for the GPU tier.</li>
-<li><strong>The self-hosted dashboard (rolling out).</strong> Dual-run shadowing, continuous reconciliation, per-run equivalence evidence - in your environment, not ours.</li>
+<li>The JobSpec contract. One file per migrated job: inputs and schemas, the byte-level output contract (exact headers, field widths, ordering, totals rows, line endings), the run interface, and the validation and benchmark configuration. The same spec drives discovery, rebuild, test, and shadow run.</li>
+<li>The byte-exact validator. Compares every declared output file against the legacy reference, byte for byte, with a diff attached to any mismatch. A missing reference means unvalidated, never proven.</li>
+<li>The benchmark harness. Cold-cache repetitions, backend dispatch, per-run validation gating, and machine metadata recorded with every result.</li>
+<li>The report generator. Speedup tables, log-scale charts, per-run records: the evidence your steering committee sees.</li>
+<li>Backend templates. GnuCOBOL rehost and the Rust engine: CPU tier, wgpu GPU tier, cudarc CUDA tier, each an independent implementation of the same contract, instantiable per job.</li>
+<li>Estate intake. The copybook parser (P1) turns COBOL record layouts into schemas with fixed-point fidelity, and the DB2 importer (P2) reads catalog schemas and DEL unloads into canonical inputs: money arrives as integer cents, never float.</li>
+<li>Seeded synthetic generators. The DB2-unload pattern for building deterministic test corpora.</li>
+<li>CLI, native binaries, container. spec init, validate, benchmark, and report on the command line; a single native binary for the CPU tier; a pinned container for the GPU tier.</li>
+<li>The self-hosted dashboard (rolling out). Dual-run shadowing, continuous reconciliation, per-run equivalence evidence: in your environment, not ours.</li>
 </ul>
 <h2>2. The gate</h2>
 <p>Automation percentages are claims about effort. Equivalence is a claim about correctness, and it is mechanical:</p>
 <ul>
-<li><strong>Exact arithmetic.</strong> COBOL business math is fixed-point. The engine carries money as integer cents end to end - provably exact, not approximately close.</li>
-<li><strong>Byte-exact outputs.</strong> Field values, totals, ordering, formatting, line endings - all identical, or the job fails with a diff.</li>
-<li><strong>Continuous enforcement.</strong> The gate runs in CI, in benchmarks, and during shadow runs. Divergence cannot silently accumulate.</li>
+<li>Exact arithmetic. COBOL business math is fixed-point. The engine carries money as integer cents end to end, provably exact, not approximately close.</li>
+<li>Byte-exact outputs. Field values, totals, ordering, formatting, line endings, all identical, or the job fails with a diff.</li>
+<li>Continuous enforcement. The gate runs in CI, in benchmarks, and during shadow runs. Divergence cannot silently accumulate.</li>
 </ul>
 <p>This is the property no major migration vendor publishes. It is the difference between 'we converted your code' and 'we can prove your system still works'.</p>
 <p>The gate exists because of three failure classes we lived through in our own quant and ML infrastructure: floating-point drift (float intermediates corrupt exact money), future-data leakage (windows that see tomorrow invalidate every downstream calculation), and non-idempotent runs (the same job returning different numbers). Each is neutralised by construction: the validator's byte comparison has no tolerance; backends run as pure functions in fresh processes with trailing-only windows; the harness byte-compares every repetition, warm and cold. Planted trap corpora - a float trap that crosses 2^53, a look-ahead trap with future rows, a reproducibility check - ship with the library and prove the gates catch what they claim.</p>
@@ -55,16 +55,16 @@
 <p>A core-scaling study extends the evidence: the harness measures worker-count sweeps and a compute-bound rolling-aggregation workload, with machine metadata recorded so every curve carries its caveats. A GPU-contention study measures both failure (a co-tenant model holding all VRAM) and mitigation (device pinning on a 4 GB free GPU - byte-exact throughout). The benchmark boxes are hybrid consumer CPUs (8 performance cores plus 12 efficiency cores); curves from homogeneous server CPUs are published as they are measured. See the Evidence Annex for the full record.</p>
 <h2>4. Three tiers, profiled to fit</h2>
 <ul>
-<li><strong>Keep-COBOL tier</strong> - GnuCOBOL on commodity instances, for logic-dense, low-volume jobs where the language is not the bottleneck.</li>
-<li><strong>CPU tier</strong> - the Rust engine with a parallel chunked reader and exact integer accumulation; needs no GPU and holds 28.1x at 1B.</li>
-<li><strong>GPU tier</strong> - two paths in the same binary: the cudarc CUDA kernel on NVIDIA (68.8x at 1B) or the wgpu kernel set for any GPU (61.3x) - NVIDIA, AMD, Intel, Apple - and the web. The wgpu path removes the GPU vendor from the lock-in question entirely; the RAPIDS container is retained for arbitrary jobs.</li>
+<li>Keep-COBOL tier: GnuCOBOL on commodity instances, for logic-dense, low-volume jobs where the language is not the bottleneck.</li>
+<li>CPU tier: the Rust engine with a parallel chunked reader and exact integer accumulation; needs no GPU and holds 28.1x at 1B.</li>
+<li>GPU tier: two paths in the same binary. The cudarc CUDA kernel on NVIDIA (68.8x at 1B) or the wgpu kernel set for any GPU (61.3x), covering NVIDIA, AMD, Intel, Apple, and the web. The wgpu path removes the GPU vendor from the lock-in question entirely; the RAPIDS container is retained for arbitrary jobs.</li>
 </ul>
 <p>The harness measures each job on the candidate tiers and hands the migration team the numbers. The team decides, balancing infrastructure and cloud options, job complexity, batch size, and cost. The library provides the measurement; the team owns the decision.</p>
 <h2>5. How you run it</h2>
 <ul>
-<li><strong>Bylazora Developer (free).</strong> The full engine, the gate, and the MCP interface for evaluation and migration trials, capped at 10 million rows per job. No key, no form, no telemetry.</li>
-<li><strong>Bylazora Pro (USD 4,900/year per production team).</strong> One named organisation, unlimited scale, production use of its own and its clients' workloads, including installs on client estates - every run names the licensee, and the key's signed expiry ends engagement access unless renewed. An Ed25519-signed key, verified locally (bylazora-core licence set, or BYLAZORA_KEY); no network, no telemetry.</li>
-<li><strong>Bylazora Enterprise (order form).</strong> Estate-scale programs, the managed-run dashboard, support SLAs, and embedding or redistributing the engine. Shops of any size - including one-person boutiques - run client engagements on a Pro key. Acceptance criteria in your contracts stop being opinions and become byte comparisons. The governed seven-phase service (The Governed Exit) runs on the same engine.</li>
+<li>Bylazora Developer (free). The full engine, the gate, and the MCP interface for evaluation and migration trials, capped at 10 million rows per job. No key, no form, no telemetry.</li>
+<li>Bylazora Pro (USD 4,900/year per production team). One named organisation, unlimited scale, production use of its own and its clients' workloads, including installs on client estates. Every run names the licensee, and the key's signed expiry ends engagement access unless renewed. An Ed25519-signed key, verified locally (bylazora-core licence set, or BYLAZORA_KEY); no network, no telemetry.</li>
+<li>Bylazora Enterprise (order form). Estate-scale programs, the managed-run dashboard, support SLAs, and embedding or redistributing the engine. Shops of any size, including one-person boutiques, run client engagements on a Pro key. Acceptance criteria in your contracts stop being opinions and become byte comparisons. The governed seven-phase service (The Governed Exit) runs on the same engine.</li>
 </ul>
 <p>On AI: in our engagements, AI drafts specifications, translations, and tests; humans sign; the gate disposes. The library ships no model and no telemetry. Its AI interface is an MCP server plus a JSON contract over the same CLI - your assistant can operate the engine, propose, and measure. It cannot mark a job proven. Only the validator can.</p>
 <p>That boundary is the answer to vibe-coded migrations. The gate verifies outputs, not provenance: it does not care whether the migrated code was hand-written or agent-drafted, because a hallucination produces different bytes, and different bytes fail the gate with a diff before anything can ship. A migration has something greenfield coding does not - an oracle. The legacy system is the ground truth, and the migrated system is certified against it, never against the agent's confidence. The agent is free to hallucinate while drafting; the gate disposes.</p>

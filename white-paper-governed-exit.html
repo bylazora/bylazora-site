@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>The Governed Exit - Methodology | Bylazora</title>
 <meta name="description" content="Bylazora - governed, AI-enabled mainframe migration to GPU/CPU-enabled cloud.">
-<link rel="stylesheet" href="assets/style-v4.css">
+<link rel="stylesheet" href="assets/style-v5.css">
 </head>
 <body>
 <header class="site-header"><div class="wrap">
@@ -46,9 +46,9 @@
 <p>Automation percentages are claims about effort. Equivalence is a claim about correctness, and it is the only claim that protects a client's business logic.</p>
 <p>Our methodology enforces three properties:</p>
 <ul>
-<li><strong>Exact arithmetic.</strong> COBOL business math is fixed-point (PACKED-DECIMAL). We carry money as integer cents end-to-end and carry money as integer cents end-to-end, so the modern implementation is provably exact - not approximately close.</li>
-<li><strong>Byte-exact outputs.</strong> The migrated function must produce output identical byte-for-byte to the legacy reference across every test dataset, including totals and ordering. A one-byte difference is a failure.</li>
-<li><strong>Continuous enforcement.</strong> The equivalence check is wired into our benchmark harness, so every change, every scale-up, and every re-run is automatically re-validated. Divergence cannot silently accumulate.</li>
+<li>Exact arithmetic. COBOL business math is fixed-point (PACKED-DECIMAL). We carry money as integer cents end-to-end, so the modern implementation is provably exact, not approximately close.</li>
+<li>Byte-exact outputs. The migrated function must produce output identical byte-for-byte to the legacy reference across every test dataset, including totals and ordering. A one-byte difference is a failure.</li>
+<li>Continuous enforcement. The equivalence check is wired into our benchmark harness, so every change, every scale-up, and every re-run is automatically re-validated. Divergence cannot silently accumulate.</li>
 </ul>
 <p>This is the property no major migration vendor publishes. It is the difference between 'we converted your code' and 'we can prove your system still works'.</p>
 <h2>5. The target technology: three tiers, chosen by evidence</h2>
@@ -59,17 +59,17 @@
 <p>Three honest conclusions follow. First, GPU acceleration is transformative at scale - the cudarc CUDA tier holds 68.8x at 1B rows on a single consumer RTX 3080 (8,704 CUDA cores) and the vendor-neutral wgpu tier 61.3x on the same card, consistent with independent industry benchmarks for GPU data processing (NVIDIA reports cuDF accelerating pandas workloads by up to 150x on GB-scale ETL; AWS reports up to 3.7x for GPU-accelerated Spark). Second, at small scale the RAPIDS container the cudarc tier replaces LOST - 0.2x at 1M rows, because data-transfer and kernel-launch overheads exceeded the compute savings; those numbers are provenance now. Third, the read path matters as much as the compute: the same 8-thread parallel chunked reader that holds the CPU tier's 28.1x at 1B rows now drives both GPU tiers, lifting the 1B row from 50.5s to 9.8s (wgpu) and 8.75s (cudarc). The crossover remains the router: benchmark, then choose.</p>
 <p>That crossover feeds profiling, not prescriptions: the ratios say what is worth testing on each tier. The migration team balances them against the infrastructure and cloud services available, job complexity, and batch sizes, and chooses the best value-for-money target state. The three tiers it chooses between:</p>
 <ul>
-<li><strong>Keep-COBOL tier</strong> (GnuCOBOL on cloud instances) for logic-dense, low-volume jobs where the language is not the bottleneck.</li>
-<li><strong>CPU tier</strong> (the Rust engine with a parallel chunked reader and exact integer accumulation) - 28.1x at 1B with no GPU at all.</li>
-<li><strong>GPU tier</strong> (the wgpu kernel set on any GPU, or the cudarc CUDA kernel on NVIDIA, both in the same binary) for large tabular and aggregation workloads - 68.8x at 1B on cudarc, 61.3x on wgpu; the RAPIDS container is retained for arbitrary jobs.</li>
+<li>Keep-COBOL tier (GnuCOBOL on cloud instances) for logic-dense, low-volume jobs where the language is not the bottleneck.</li>
+<li>CPU tier (the Rust engine with a parallel chunked reader and exact integer accumulation): 28.1x at 1B with no GPU at all.</li>
+<li>GPU tier (the wgpu kernel set on any GPU, or the cudarc CUDA kernel on NVIDIA, both in the same binary) for large tabular and aggregation workloads: 68.8x at 1B on cudarc, 61.3x on wgpu; the RAPIDS container is retained for arbitrary jobs.</li>
 </ul>
 <h2>6. The target architecture</h2>
 <p>The to-be platform is a governed, cloud-native batch estate:</p>
 <ul>
-<li><strong>Data:</strong> canonical Parquet datasets on object storage, preserving fixed-point semantics; keyed storage for VSAM-class access patterns; versioned objects for generation data groups.</li>
-<li><strong>Compute:</strong> containerized jobs on three instance tiers (general-purpose for keep-COBOL, CPU-optimized for the Rust CPU tier, GPU instances for accelerated jobs), scheduled by a DAG engine that preserves batch windows and dependencies.</li>
-<li><strong>Scale-out for large estates:</strong> workloads shard by business key (account, customer, policy) - never by time - so inter-row semantics stay intact per shard; multi-GPU and multi-node execution via sharded wgpu kernels or the RAPIDS container path; reduction steps are small and cheap, so scaling is near-linear. Commodity hardware is the point: the exit from z/OS should not require an entrance into NVIDIA. On our benchmark box, one NVIDIA RTX 3080 handled 100M rows of this workload class in 6.6 seconds and 1B rows in 68 seconds; estates that exceed a single GPU's memory are partitioned, not capped.</li>
-<li><strong>Economics:</strong> batch is periodic and checkpointable, so spot capacity and commitment plans cut steady-state compute materially; a representative nightly 100M-transaction batch on a dedicated-GPU target prices in the low hundreds of dollars per month.</li>
+<li>Data: canonical Parquet datasets on object storage, preserving fixed-point semantics; keyed storage for VSAM-class access patterns; versioned objects for generation data groups.</li>
+<li>Compute: containerized jobs on three instance tiers (general-purpose for keep-COBOL, CPU-optimized for the Rust CPU tier, GPU instances for accelerated jobs), scheduled by a DAG engine that preserves batch windows and dependencies.</li>
+<li>Scale-out for large estates: workloads shard by business key (account, customer, policy) - never by time - so inter-row semantics stay intact per shard; multi-GPU and multi-node execution via sharded wgpu kernels or the RAPIDS container path; reduction steps are small and cheap, so scaling is near-linear. Commodity hardware is the point: the exit from z/OS should not require an entrance into NVIDIA. On our benchmark box, one NVIDIA RTX 3080 handled 100M rows of this workload class in 6.6 seconds and 1B rows in 68 seconds; estates that exceed a single GPU's memory are partitioned, not capped.</li>
+<li>Economics: batch is periodic and checkpointable, so spot capacity and commitment plans cut steady-state compute materially; a representative nightly 100M-transaction batch on a dedicated-GPU target prices in the low hundreds of dollars per month.</li>
 </ul>
 <h2>7. Indicative economics</h2>
 <p><strong>Target platform cost (worked example):</strong> a nightly batch of 100M transactions, 3 hours of daily processing, one L40S-class GPU instance (18,176 CUDA cores) plus one CPU instance, 2 TB of object storage, and 200 GB of monthly egress prices at roughly USD 380/month on AWS on-demand - before spot or commitment discounts. Against even a conservative USD 3,000-8,000/month mainframe allocation, that is an 87-95% reduction, and the published industry outcome range is consistent (30-50% three-year TCO reduction with a ~22-month median payback across modernization programs generally; headline cases report up to 70-90% with named clients).</p>
