@@ -24,10 +24,11 @@
       <a href="#evidence"><span class="pf-key">1=</span>PROOF</a>
       <a href="#paths"><span class="pf-key">2=</span>ENGINE</a>
       <a href="#equivalence"><span class="pf-key">3=</span>GATE</a>
-      <a href="licence.html"><span class="pf-key">4=</span>LICENCE</a>
-      <a href="#engage"><span class="pf-key">5=</span>SERVICES</a>
-      <a href="community.html"><span class="pf-key">6=</span>COMMUNITY</a>
-      <a class="is-cta" href="#engage"><span class="pf-key">7=</span>PROOF TRIAL</a>
+      <a href="#agents"><span class="pf-key">4=</span>AGENTS</a>
+      <a href="licence.html"><span class="pf-key">5=</span>LICENCE</a>
+      <a href="#engage"><span class="pf-key">6=</span>SERVICES</a>
+      <a href="community.html"><span class="pf-key">7=</span>COMMUNITY</a>
+      <a class="is-cta" href="#engage"><span class="pf-key">8=</span>PROOF TRIAL</a>
     </nav>
   </div>
 </header>
@@ -95,7 +96,7 @@ cuda    68.8x     8.75s   IDENTICAL
       </div>
       <div class="card">
         <h3>The AI-enabled route</h3>
-        <p>AI reads the estate: code, copybooks, JCL, runbooks. It extracts business rules, and drafts translations and test suites. Humans review and sign every artifact; the equivalence gate verifies it. AI proposes; the gate disposes.</p>
+        <p>AI reads the estate: code, copybooks, JCL, runbooks. It extracts business rules, and drafts translations and test suites. Humans review and sign every artifact; the equivalence gate verifies it. AI proposes; the gate disposes. <a href="#agents">Your agent can drive the engine through MCP today.</a></p>
       </div>
     </div>
     <table>
@@ -105,6 +106,45 @@ cuda    68.8x     8.75s   IDENTICAL
       <tr><td>Regulatory freeze, zero tolerance for change</td><td>Rehost COBOL on cloud</td></tr>
       <tr><td>Medium complexity, staged transition</td><td>AI-assisted, then per-function decision</td></tr>
     </table>
+  </div>
+</section>
+
+<section id="agents" class="section">
+  <div class="wrap">
+    <h2>Point your coding agent at the gate</h2>
+    <p class="section-lede">The MCP server ships inside the same binary. Point Claude Code, Cursor, Copilot or any MCP client at it and your agent can drive the engine: draft a migration, run it on your data, and read the verdict back as a diff. What it cannot do is mark anything proven. Only the validator does that, byte for byte, against your legacy reference. The agent proposes; the gate disposes.</p>
+    <div class="two-col">
+      <div>
+        <h3>Why this is the point</h3>
+        <p>Every other AI coding tool asks you to trust the model. This one makes the model pass a gate. A hallucinated translation is not a style argument here: it is a byte difference, and the difference is the feedback the agent iterates against. Your assistant can be as inventive as it likes while drafting, because nothing reaches production without reproducing the legacy output exactly.</p>
+        <p>That matters most where the work is worst. A real estate is not one program, it is thousands, each with its own copybook, fixed-point fields, batch window and dead code. The gate turns that from an act of faith into a queue of diffs, and the queue is what your team actually reviews.</p>
+        <p>The <a href="https://github.com/bylazora/bylazora/tree/main/agents">rule pack</a> teaches the agent the invariants before it drafts a line, and the <a href="https://github.com/bylazora/bylazora/tree/main/engine/src/mcp.rs">MCP server</a> is open source with the rest of the engine.</p>
+      </div>
+      <div class="codeblock">
+        <pre><code>$ bylazora-core mcp
+JSON-RPC 2.0 over stdio, no network
+
+# any MCP client
+{
+  "mcpServers": {
+    "bylazora": {
+      "command": "/path/to/bylazora-core",
+      "args": ["mcp"]
+    }
+  }
+}
+
+# the tools the agent gets
+validate        byte-compare against the
+                legacy reference
+bench           run a tier, report wall time
+copybook_parse  read a COBOL copybook
+
+# the one thing no tool can do
+mark a run proven    <- the validator only</code></pre>
+      </div>
+    </div>
+    <p class="note">This is what the byte-exact gate was built for. A model that drafts a migration is useful; a model whose draft has to survive a byte comparison with the legacy system is trustworthy. Those are different claims, and only one of them can be checked.</p>
   </div>
 </section>
 

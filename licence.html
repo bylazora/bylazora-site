@@ -13,14 +13,14 @@
 <body>
 <header class="site-header"><div class="wrap">
 <div class="screen-title"><a class="brand" href="index.html">BYLAZORA</a><span class="screen-sub">GOVERNED MAINFRAME MIGRATION</span><span class="screen-right">PROOF, NOT PERCENTAGES</span></div>
-<nav class="pf-row"><a href="index.html"><span class="pf-key">1=</span>PROOF</a><a href="index.html#paths"><span class="pf-key">2=</span>ENGINE</a><a href="index.html#equivalence"><span class="pf-key">3=</span>GATE</a><a href="licence.html"><span class="pf-key">4=</span>LICENCE</a><a href="index.html#engage"><span class="pf-key">5=</span>SERVICES</a><a href="community.html"><span class="pf-key">6=</span>COMMUNITY</a><a class="is-cta" href="index.html#engage"><span class="pf-key">7=</span>PROOF TRIAL</a></nav>
+<nav class="pf-row"><a href="index.html"><span class="pf-key">1=</span>PROOF</a><a href="index.html#paths"><span class="pf-key">2=</span>ENGINE</a><a href="index.html#equivalence"><span class="pf-key">3=</span>GATE</a><a href="index.html#agents"><span class="pf-key">4=</span>AGENTS</a><a href="licence.html"><span class="pf-key">5=</span>LICENCE</a><a href="index.html#engage"><span class="pf-key">6=</span>SERVICES</a><a href="community.html"><span class="pf-key">7=</span>COMMUNITY</a><a class="is-cta" href="index.html#engage"><span class="pf-key">8=</span>PROOF TRIAL</a></nav>
 </div></header>
 <main class="doc wrap">
 <h1>The licence</h1>
-<p class="section-lede">The engine is open source. The honesty line first: the key protects the commercial relationship, not the code. Under AGPL anyone may remove the key check and recompile - the licence and the run records are the contract, and that is exactly how we want it.</p>
+<p class="section-lede">The engine is open source, and this page is honest about what a licence is. There is nothing technical to enforce: the engine is free and unlimited, and a key does not gate a run. What a key does is name the licensee on the run record, which is what matters when an auditor asks who produced a number.</p>
 <h2>What is free, forever</h2>
 <ul>
-<li>The engine: the byte-exact gate, the three compute tiers, the C ABI, the MCP server, and the judge harness. AGPL-3.0-or-later. Use it, modify it, run it; if you offer a modified version over a network, share it.</li>
+<li>The engine: the byte-exact gate, the three compute tiers, the C ABI, the MCP server, and the judge harness. AGPL-3.0-or-later, at any scale. No row cap, no key, no form, no telemetry. Use it, modify it, run it; if you offer a modified version over a network, share it.</li>
 <li>The parsers: the copybook parser and the DB2 importer. Apache-2.0. Embed them freely.</li>
 <li>The sample migration: Apache-2.0, with the gate wired into its CI.</li>
 <li>The evidence: every run record behind every published number.</li>
@@ -28,15 +28,15 @@
 <p>Clone it at <a href="https://github.com/bylazora">github.com/bylazora</a>. Give your agents <a href="https://github.com/bylazora">the rule pack</a> and they know the invariants before they draft a line.</p>
 <h2>What is paid, and why</h2>
 <div class="grid-2x2">
-<div class="card"><h3>Commercial licence</h3><p class="tier">USD 4,900/year per production team</p><p>For estates that cannot accept AGPL, or that embed the engine in closed products: the same engine under a commercial licence, with support. Covers the organisation's own workloads and its client engagements, at any scale and any number of installations, including client estates - every run names the licensee, and the signed expiry ends access unless renewed.</p></div>
+<div class="card"><h3>Commercial licence</h3><p class="tier">USD 4,900/year per production team</p><p>Not a scale unlock, because scale is free already: it is an exception to AGPL's copyleft, for estates that cannot accept it - closed embedding, or a legal review that red-lists AGPL. It names one organisation and covers its own and its clients' workloads, including installs on client estates. Every recorded run names the licensee, and the licence carries support.</p></div>
 <div class="card"><h3>The engagement</h3><p class="tier">Run with you, fixed fee</p><p>The proof trial, the migration waves, dual-run and cutover, and the assurance pack, delivered by us on the same open engine. Every part of it you can also do yourself: the engine is free, and it stays free.</p><p><a href="index.html#engage">What we actually do</a></p></div>
 </div>
-<h2>How buying works - and why it is fast</h2>
-<p>Buy the licence on this page with a card (Apple Pay and Google Pay work). Stripe handles payment and receipts. The moment payment clears, our server signs your key, stores it in your portal, and emails it to you. Then one command:</p>
+<h2>How buying works today</h2>
+<p>There is no checkout on this page yet. Email <a href="mailto:hello@bylazora.com">hello@bylazora.com</a> with the organisation name to license and we issue a key: an Ed25519-signed token naming that organisation and its expiry. One command installs it:</p>
 <pre><code>bylazora-core licence set &lt;key&gt;</code></pre>
-<p>Renewal is automatic: the subscription renews, and the next year's key is issued before the signed expiry passes. Cancellation is a click in Stripe's portal. No PDFs, no phone calls, no waiting.</p>
+<p>The key is verified locally against a published public key, so the engine stays air-gapped. Renewal is a reissue rather than a subscription: the next year's key arrives before the current expiry passes. Card checkout is coming; we would rather say that plainly than describe a button that is not there.</p>
 <h2>The key, honestly described</h2>
-<p>The key is an Ed25519-signed token carrying your organisation and its expiry. The binary verifies it locally against a published public key. No network, no telemetry, no activation server - the engine runs air-gapped, and the licence check is a pure function of the key, the row count, and the clock. The check can be patched by a determined reverser, as with every offline licence; what cannot be faked is the run record, which names the licensee on every keyed run.</p>
+<p>The key is an Ed25519-signed token carrying your organisation and its expiry. The binary verifies it locally against a published public key: no network, no telemetry, no activation server, so the engine runs air-gapped. It is an artefact, not a gate. The engine runs identically without one, at any scale, and an expired key does not stop a run - deliberately, because anything else would make installing a key worse than not installing one. What the key buys is legal rather than mechanical: the right to use the engine where AGPL is not acceptable, and a run record that names you on every keyed run.</p>
 <p class="pullquote">The engine is free. The run is how we get paid.</p>
 </main>
 <p class="eos">*** END OF SCREEN ***</p>
