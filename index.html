@@ -40,7 +40,7 @@
     <p class="lede">Bylazora is the byte-exact migration engine, open source under AGPL: a migrated workload's outputs must equal the legacy COBOL reference byte for byte, or the gate fails it. One Rust binary runs the gate and the production runtime across CPU, any GPU, and CUDA: measured 68.8x at one billion rows, every run IDENTICAL. Read the proof, clone the engine, or have us run your exit.</p>
     <div class="hero-ctas">
       <a class="btn btn-primary" href="evidence.html">Read the proof</a>
-      <a class="btn btn-ghost" href="https://github.com/bylazora">Start migrating</a>
+      <a class="btn btn-ghost" href="#download">Start migrating</a>
       <a class="btn btn-ghost" href="#engage">Book a proof trial</a>
     </div>
   </div>
@@ -118,7 +118,7 @@ cuda    68.8x     8.75s   IDENTICAL
         <h3>Why this is the point</h3>
         <p>Every other AI coding tool asks you to trust the model. This one makes the model pass a gate. A hallucinated translation is not a style argument here: it is a byte difference, and the difference is the feedback the agent iterates against. Your assistant can be as inventive as it likes while drafting, because nothing reaches production without reproducing the legacy output exactly.</p>
         <p>That matters most where the work is worst. A real estate is not one program, it is thousands, each with its own copybook, fixed-point fields, batch window and dead code. The gate turns that from an act of faith into a queue of diffs, and the queue is what your team actually reviews.</p>
-        <p>The <a href="https://github.com/bylazora/bylazora/tree/main/agents">rule pack</a> teaches the agent the invariants before it drafts a line, and the <a href="https://github.com/bylazora/bylazora/tree/main/engine/src/mcp.rs">MCP server</a> is open source with the rest of the engine.</p>
+        <p>The <a href="https://github.com/bylazora/bylazora/tree/main/agents">rule pack</a> teaches the agent the invariants before it drafts a line, and the <a href="https://github.com/bylazora/bylazora/tree/main/engine/src/mcp.rs">MCP server</a> is open source with the rest of the engine. Get the binary for <a href="#download">every platform</a>.</p>
       </div>
       <div class="codeblock">
         <pre><code>$ bylazora-core mcp
@@ -145,6 +145,40 @@ mark a run proven    <- the validator only</code></pre>
       </div>
     </div>
     <p class="note">This is what the byte-exact gate was built for. A model that drafts a migration is useful; a model whose draft has to survive a byte comparison with the legacy system is trustworthy. Those are different claims, and only one of them can be checked.</p>
+  </div>
+</section>
+
+<section id="download" class="section">
+  <div class="wrap">
+    <h2>Get the engine</h2>
+    <p class="section-lede">One binary, every platform. Prebuilt and signed for the platforms below, and published as source on crates.io, so any machine with a Rust toolchain can build it too. Every binary carries a sha256 and an Ed25519 signature, verifiable offline against the published public key.</p>
+    <table>
+      <tr><th>Platform</th><th>What it carries</th></tr>
+      <tr><td>Linux x86_64 (glibc)</td><td>CPU, wgpu and the CUDA tier</td></tr>
+      <tr><td>Linux x86_64 (musl, static)</td><td>CPU and wgpu; runs on any distro</td></tr>
+      <tr><td>Linux aarch64 (ARM64)</td><td>CPU and wgpu; Graviton and ARM cloud</td></tr>
+      <tr><td>macOS, Apple Silicon</td><td>CPU and wgpu</td></tr>
+      <tr><td>macOS, Intel</td><td>CPU and wgpu</td></tr>
+      <tr><td>Windows x86_64</td><td>CPU and wgpu; the sample gate itself stays bash on Linux</td></tr>
+    </table>
+    <p class="field">Which tier runs where</p>
+    <table>
+      <tr><th>Tier</th><th>Runs on</th></tr>
+      <tr><td>CPU</td><td>everywhere</td></tr>
+      <tr><td>wgpu</td><td>any GPU: NVIDIA, AMD, Intel, Apple - or no GPU at all, through software Vulkan</td></tr>
+      <tr><td>CUDA</td><td>NVIDIA hardware and drivers only, and only in the Linux x86_64 binary</td></tr>
+    </table>
+    <p class="note">The honest NVIDIA point: CUDA is an optional acceleration path, never a requirement. The wgpu tier is byte-exact on the same NVIDIA cards, which is why it ships on every platform while CUDA ships on one. An estate without NVIDIA hardware loses nothing but a fraction of headline speed, and the gate's verdict is identical either way.</p>
+    <div class="codeblock">
+      <pre><code># from crates.io (any platform with Rust)
+cargo install bylazora-core
+
+# or the signed binary for your platform
+# https://github.com/bylazora/bylazora/releases
+
+# then point your agent at the gate
+bylazora-core mcp</code></pre>
+    </div>
   </div>
 </section>
 
