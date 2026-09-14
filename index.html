@@ -21,9 +21,9 @@
       <a href="#paths"><span class="pf-key">2=</span>ENGINE</a>
       <a href="#equivalence"><span class="pf-key">3=</span>GATE</a>
       <a href="licence.html"><span class="pf-key">4=</span>LICENCE</a>
-      <a href="managed-run.html"><span class="pf-key">5=</span>MANAGED RUN</a>
+      <a href="#engage"><span class="pf-key">5=</span>SERVICES</a>
       <a href="community.html"><span class="pf-key">6=</span>COMMUNITY</a>
-      <a class="is-cta" href="#contact"><span class="pf-key">7=</span>PROOF TRIAL</a>
+      <a class="is-cta" href="#engage"><span class="pf-key">7=</span>PROOF TRIAL</a>
     </nav>
   </div>
 </header>
@@ -36,7 +36,7 @@
     <div class="hero-ctas">
       <a class="btn btn-primary" href="evidence.html">Read the proof</a>
       <a class="btn btn-ghost" href="https://github.com/bylazora">Start migrating</a>
-      <a class="btn btn-ghost" href="#contact">Book a proof trial</a>
+      <a class="btn btn-ghost" href="#engage">Book a proof trial</a>
     </div>
   </div>
 </section>
@@ -123,7 +123,7 @@ cuda    68.8x     8.75s   IDENTICAL
 <section id="licence" class="section">
   <div class="wrap">
     <h2>The engine is free. The run is how we get paid.</h2>
-    <p class="section-lede">The byte-exact gate, the three tiers, and the parsers are open source: AGPL for the engine, Apache-2.0 for the parsers. Anyone can read the validator, run it, and prove their own migration. Bylazora earns its keep on what surrounds the code: the managed run, the commercial licence for AGPL-averse estates, and the migration service.</p>
+    <p class="section-lede">The byte-exact gate, the three tiers, and the parsers are open source: AGPL for the engine, Apache-2.0 for the parsers. Anyone can read the validator, run it, and prove their own migration, without asking us for anything. Bylazora earns its keep on two things: the commercial licence, for estates that cannot accept AGPL, and doing the migration with you when you would rather not do it alone.</p>
     <div class="three-col">
       <div class="card">
         <h3>The open engine</h3>
@@ -139,10 +139,10 @@ cuda    68.8x     8.75s   IDENTICAL
         <p><a href="licence.html">How the licence works</a></p>
       </div>
       <div class="card">
-        <h3>The managed run</h3>
-        <p class="tier">Subscription</p>
-        <p>Hosted execution, the dashboards, the tamper-flagged audit trail, scale tiers, and SLAs: the run, not the bytes. Buy it with a card; the key lands in your portal and your inbox, then one command installs it.</p>
-        <p><a href="managed-run.html">See the managed run</a></p>
+        <h3>The engagement</h3>
+        <p class="tier">Run with you, fixed fee</p>
+        <p>Everything the engine does, you can do yourself, and we will tell you so. When you would rather have it run with you: the proof trial, the migration waves, dual-run and cutover, and the assurance pack. Quoted against your assessed function inventory.</p>
+        <p><a href="#engage">What we actually do</a></p>
       </div>
     </div>
     <p class="note">What is in the box: the byte-exact validator, the three-tier engine (CPU, wgpu, cudarc), the C ABI, the MCP server, the copybook parser and DB2 importer, the judge harness, the sample migration, and the evidence annex. What stays ours: the playbook, the corpora, the replication recipes, and pricing, the know-how, not the code. And the AI boundary: your assistant can operate the engine through its MCP interface, propose, and measure. It cannot mark a job proven. Only the validator can.</p>
@@ -262,7 +262,7 @@ summary_report.csv     IDENTICAL
       <tr><td>Rebuild + Deploy + Migrate data</td><td>5&ndash;16</td><td>Parallel migration waves: every function re-implemented or rehosted on its tier and equivalence-proven before it proceeds</td></tr>
       <tr><td>Test + shadow run</td><td>17&ndash;20</td><td>Dual-run against production through a full business cycle, reconciled continuously</td></tr>
       <tr><td>Roll over + decommission</td><td>21&ndash;24</td><td>Per-function cutover, parallel-run sign-off, decommissioning, handover</td></tr>
-      <tr><td>Managed run (ongoing)</td><td>25+</td><td>SLO-managed operation, seasonal peak plans, continuous equivalence monitoring</td></tr>
+      <tr><td>Steady state</td><td>25+</td><td>Your team runs it on the open engine: continuous equivalence monitoring, seasonal peak plans, and drift failing loudly with a diff. We stay on hand if you want us.</td></tr>
     </table>
   </div>
 </section>
@@ -285,13 +285,31 @@ summary_report.csv     IDENTICAL
   </div>
 </section>
 
-<section id="contact" class="section cta">
+<section id="engage" class="section cta">
   <div class="wrap">
-    <h2>Start with a proof trial</h2>
-    <p>The proof trial takes one representative job and an afternoon: byte-exact reproduction, benchmarks across CPU and any GPU, the live gate demo, with no production change. The trial fee is credited in full against the first migration wave.</p>
+    <h2>When you want it run with you</h2>
+    <p class="section-lede">Everything below you can do without us. The engine is free, the gate is in the binary, and the run records are yours to keep. Bylazora is who you call when you want the exit run <em>with</em> you: someone accountable for the proof, the waves, and the cutover.</p>
+    <div class="grid-2x2">
+      <div class="card">
+        <h3>The proof trial</h3>
+        <p>One representative job from your estate, and an afternoon. Byte-exact reproduction on your own hardware, benchmarked across CPU and any GPU, with the gate demonstrated live. No production change. Fixed price, credited in full against the first wave.</p>
+      </div>
+      <div class="card">
+        <h3>The migration waves</h3>
+        <p>Your estate moves in waves. Every function is re-implemented or rehosted onto its tier and equivalence-proven before it is allowed to proceed. Nothing advances on a promise.</p>
+      </div>
+      <div class="card">
+        <h3>Dual-run and cutover</h3>
+        <p>Shadow running against production through a full business cycle, reconciled continuously, then per-function cutover. Every step is reversible until you sign it off.</p>
+      </div>
+      <div class="card">
+        <h3>The assurance pack</h3>
+        <p>The run records, the gate's verdicts, and the dual-run reconciliation stream: the evidence your steering committee and your auditor actually ask for. Produced by the engine on your estate, and kept by you.</p>
+      </div>
+    </div>
+    <p>If you would rather do it yourself, that is the point of the whole project: <a href="https://github.com/bylazora">clone the engine</a>, run the gate, and <a href="sample/bylazora-sample-migration.tar.gz">the sample migration</a> shows the entire flow. No licence is needed for AGPL use, and no part of this page requires us.</p>
     <p class="contact-line">Email: <a href="mailto:hello@bylazora.com">hello@bylazora.com</a></p>
     <p class="contact-line"><a class="btn btn-primary" href="white-paper.html">Read The Engine</a> <a class="btn btn-ghost" href="white-paper-governed-exit.html">The Governed Exit (method)</a> <a class="btn btn-ghost" href="evidence.html">The Evidence Annex</a> <a class="btn btn-ghost" href="why-migrations-fail.html">Why migrations fail</a></p>
-    <p class="contact-line"><a class="btn btn-ghost" href="sample/bylazora-sample-migration.tar.gz">Download the sample migration</a>: a COBOL batch application and its migrated Rust engine, with the byte-exact gate as its CI regression test.</p>
   </div>
 </section>
 
