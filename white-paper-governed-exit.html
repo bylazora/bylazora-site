@@ -13,6 +13,7 @@
 <nav><a href="index.html">Home</a><a href="index.html#evidence">Evidence</a><a href="index.html#economics">Economics</a><a href="index.html#contact">Contact</a></nav>
 </div></header>
 <main class="doc wrap"><h1>The Governed Exit</h1>
+<p><strong>Licence note:</strong> the engine this paper describes is open source under AGPL-3.0-or-later (its parsers under Apache-2.0); the paper and the evidence are (c) Bylazora.</p>
 <h2>Migrating COBOL Batch Workloads from the Mainframe to a GPU-Accelerated Cloud, With Proof at Every Step</h2>
 <p><strong>Bylazora - Mainframe Migration Services</strong></p>
 <p>bylazora.com</p>
@@ -53,9 +54,7 @@
 <h2>5. The target technology: three tiers, chosen by evidence</h2>
 <p>Not every workload should leave COBOL, and not every workload should touch a GPU. We benchmark before we choose, and we publish the crossover data instead of hiding it.</p>
 <p><strong>Our measured reference workload</strong> - a representative COBOL batch program performing per-account aggregation over transaction files, running on the shipped Rust engine across three tiers and benchmarked at 1M, 10M, 100M, and 1B rows (3 cold-cache repetitions each, all outputs byte-identical to the COBOL reference):</p>
-<table><tr><td>Scale</td><td>COBOL (baseline)</td><td>CPU tier (Rust)</td><td>GPU tier (wgpu, any GPU)</td><td>GPU tier (CUDA)</td></tr></table>
-<p>|-------|-----------------|-----------------|--------------------------|------------------|</p>
-<table><tr><td>1M</td><td>1.00x</td><td>26.3x</td><td><strong>39.5x</strong></td><td>39.5x</td></tr><tr><td>10M</td><td>1.00x</td><td><strong>48.5x</strong></td><td><strong>48.5x</strong></td><td>44.5x</td></tr><tr><td>100M</td><td>1.00x</td><td>25.5x</td><td>36.1x</td><td><strong>60.4x</strong></td></tr><tr><td>1B</td><td>1.00x</td><td>28.1x</td><td>61.3x</td><td><strong>68.8x</strong></td></tr></table>
+<table><tr><th>Scale</th><th>COBOL (baseline)</th><th>CPU tier (Rust)</th><th>GPU tier (wgpu, any GPU)</th><th>GPU tier (CUDA)</th></tr><tr><td>1M</td><td>1.00x</td><td>26.3x</td><td>39.5x</td><td>39.5x</td></tr><tr><td>10M</td><td>1.00x</td><td>48.5x</td><td>48.5x</td><td>44.5x</td></tr><tr><td>100M</td><td>1.00x</td><td>25.5x</td><td>36.1x</td><td>60.4x</td></tr><tr><td>1B</td><td>1.00x</td><td>28.1x</td><td>61.3x</td><td>68.8x</td></tr></table>
 <p>All rows byte-exact against the COBOL reference, measured on the shipped Rust engine.</p>
 <p>Three honest conclusions follow. First, GPU acceleration is transformative at scale - the cudarc CUDA tier holds 68.8x at 1B rows on a single consumer RTX 3080 (8,704 CUDA cores) and the vendor-neutral wgpu tier 61.3x on the same card, consistent with independent industry benchmarks for GPU data processing (NVIDIA reports cuDF accelerating pandas workloads by up to 150x on GB-scale ETL; AWS reports up to 3.7x for GPU-accelerated Spark). Second, at small scale the RAPIDS container the cudarc tier replaces LOST - 0.2x at 1M rows, because data-transfer and kernel-launch overheads exceeded the compute savings; those numbers are provenance now. Third, the read path matters as much as the compute: the same 8-thread parallel chunked reader that holds the CPU tier's 28.1x at 1B rows now drives both GPU tiers, lifting the 1B row from 50.5s to 9.8s (wgpu) and 8.75s (cudarc). The crossover remains the router: benchmark, then choose.</p>
 <p>That crossover feeds profiling, not prescriptions: the ratios say what is worth testing on each tier. The migration team balances them against the infrastructure and cloud services available, job complexity, and batch sizes, and chooses the best value-for-money target state. The three tiers it chooses between:</p>
