@@ -187,18 +187,25 @@ job batch-txn (rust)
         <h3>Why this is the point</h3>
         <p>Every other AI coding tool asks you to trust the model. This one makes the model pass a gate. A hallucinated translation is not a style argument here: it is a byte difference, and the difference is the feedback the agent iterates against. Your assistant can be as inventive as it likes while drafting, because nothing reaches production without reproducing the legacy output exactly.</p>
         <p>That matters most where the work is worst. A real estate is not one program, it is thousands, each with its own copybook, fixed-point fields, batch window and dead code. The gate turns that from an act of faith into a queue of diffs, and the queue is what your team actually reviews.</p>
-        <p>The <a href="https://github.com/bylazora/bylazora/tree/main/agents">rule pack</a> teaches the agent the invariants before it drafts a line, and the <a href="https://github.com/bylazora/bylazora/tree/main/engine/src/mcp.rs">MCP server</a> is open source with the rest of the engine. The rule pack and a worked workspace template also ship on npm: <code>npm install bylazora</code>. Get the binary for <a href="#download">every platform</a>.</p>
+        <p>The <a href="https://github.com/bylazora/bylazora/tree/main/agents">rule pack</a> teaches the agent the invariants before it drafts a line, and the <a href="https://github.com/bylazora/bylazora/tree/main/engine/src/mcp.rs">MCP server</a> is open source with the rest of the engine. The rule pack, a worked workspace template, and the one-command wiring ship on npm: <code>npx bylazora setup claude</code>. Get the binary for <a href="#download">every platform</a>.</p>
       </div>
       <div class="codeblock">
-        <pre><code>$ bylazora-core mcp
+        <pre><code># wire a client in one command
+$ npx bylazora setup claude
+wrote .mcp.json
+
+# or serve the tools directly
+$ bylazora mcp
 JSON-RPC 2.0 over stdio, no network
 
-# any MCP client
+# the config it writes: node plus the CLI;
+# the engine path is discovered, never
+# hardcoded, and works on every platform
 {
   "mcpServers": {
     "bylazora": {
-      "command": "/path/to/bylazora-core",
-      "args": ["mcp"]
+      "command": "node",
+      "args": [".../cli.js", "mcp"]
     }
   }
 }
@@ -247,12 +254,15 @@ cargo install bylazora-core
 # or the signed binary for your platform
 # https://github.com/bylazora/bylazora/releases
 
-# the agent pack on npm: rules/ and the
-# migrate workspace template
-npm install bylazora
+# the agent CLI on npm: setup, rules,
+# template, and the delegated loop
+npm install -g bylazora
+
+# wire your agent in one command
+bylazora setup claude
 
 # then point your agent at the gate
-bylazora-core mcp</code></pre>
+bylazora mcp</code></pre>
     </div>
   </div>
 </section>
