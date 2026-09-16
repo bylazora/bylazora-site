@@ -48,7 +48,7 @@
   <div class="wrap">
     <p class="kicker">The migration you can prove &middot; Open source, AGPL &middot; Proof, not percentages</p>
     <h1>The migration<br>you can <span class="accent">prove</span>.<span class="cursor" aria-hidden="true"></span></h1>
-    <p class="lede">Bylazora is the byte-exact migration engine, open source under AGPL: a migrated workload's outputs must equal the legacy COBOL reference byte for byte, or the gate fails it. One Rust binary runs the gate and the production runtime across CPU, any GPU, and CUDA: measured 68.8x at one billion rows, every run IDENTICAL. Read the proof, clone the engine, or have us run your exit.</p>
+    <p class="lede">Bylazora proves a mainframe migration is correct before it goes live. The migrated system must reproduce the legacy output exactly, to the byte, or the migration is not accepted: no automation percentages, no assurance by inspection, and no difference found in production, where it costs the most. The engine is open source, free at any scale, and runs on the commodity hardware and cloud you already buy.</p>
     <div class="hero-ctas">
       <a class="btn btn-primary" href="evidence.html">Read the proof</a>
       <a class="btn btn-ghost" href="#download">Start migrating</a>
@@ -73,22 +73,27 @@ cuda    68.8x     8.75s   IDENTICAL
 
 <section id="problem" class="section">
   <div class="wrap">
-    <h2>Why now</h2>
-    <div class="three-col">
+    <h2>The business case</h2>
+    <p class="section-lede">A mainframe estate carries three costs at once: the risk of a migration that goes wrong, the bill for staying where you are, and the clock on the people who understand the code. Bylazora answers the first, and changes the arithmetic on the other two.</p>
+    <div class="grid-2x2">
       <div class="card">
-        <h3>The skills cliff</h3>
-        <p>An estimated 220&ndash;800 billion lines of COBOL remain in production. The average COBOL developer is in their late 50s, roughly 10% retire every year, and about 70% of universities no longer teach the language.</p>
+        <h3>What it is</h3>
+        <p>A standard and a tool. The standard: a migrated workload's outputs must equal the legacy COBOL reference byte for byte, or the migration is not accepted. The tool: one open-source binary that checks exactly that, and then runs the workload in production. It is the difference between being told a migration is fine and being shown that it is.</p>
       </div>
       <div class="card">
-        <h3>The cost trajectory</h3>
-        <p>Mainframe software is typically 30&ndash;50% of the total mainframe budget, large estates pay roughly $1,000&ndash;2,000 per MIPS per year, and pricing keeps trending up.</p>
+        <h3>Why it is on your desk</h3>
+        <p>Migration is the highest-stakes project an enterprise runs, and the industry's failures are public: TSB's 2018 migration cost 330 million pounds and locked 1.9 million customers out. Those failures share one cause, which is that the work was validated by inspection. Proof is cheaper than an outage, and far cheaper than a regulator asking who checked.</p>
       </div>
       <div class="card">
-        <h3>The exit risk</h3>
-        <p>Migration is the highest-stakes project an enterprise runs. The industry's failures happened because systems were validated by inspection, not by proof: a UK bank locked 1.9M customers out in 2018.</p>
+        <h3>The bill you keep paying</h3>
+        <p>Mainframe software is typically 30&ndash;50% of the mainframe budget, large estates pay roughly $1,000&ndash;2,000 per MIPS per year, and pricing trends up. A worked 100M-transaction nightly batch runs near $380 a month on commodity cloud hardware: an 87&ndash;95% reduction against a conservative mainframe allocation. The migration pays for itself before the estate is finished.</p>
+      </div>
+      <div class="card">
+        <h3>The clock you are on</h3>
+        <p>An estimated 220&ndash;800 billion lines of COBOL remain in production. Roughly 10% of COBOL developers retire each year and most universities no longer teach it. The estate is not the emergency; the people who understand it are. Every year of delay narrows who can be held accountable for the change.</p>
       </div>
     </div>
-    <p class="note">We are equally honest about the other side: mainframes are reliable and cheap per workload. Our argument is the skills cliff, the licensing trajectory, and the strategic cost of lock-in, not that the mainframe is broken.</p>
+    <p class="note">We are equally honest about the other side: mainframes are reliable and cheap per workload. The argument is the licensing trajectory, the skills cliff, and the strategic cost of lock-in, not that the mainframe is broken. And there is nothing to procure to evaluate any of it: the engine is free, and the <a href="#engage">proof trial</a> takes one job and an afternoon.</p>
   </div>
 </section>
 
