@@ -133,27 +133,35 @@ cuda    68.8x     8.75s   IDENTICAL
       <div>
         <h3>The loop, once per job</h3>
         <ol class="cycle">
-          <li><strong>Capture the reference.</strong> Run the legacy program once on fixed input and keep its output files. That directory is the contract: it declares what the outputs are.</li>
-          <li><strong>Rewrite the routine</strong> in whatever you are willing to run in production. Rust, Java, Python, a warehouse query, a scheduler job. By hand, or drafted by an agent.</li>
-          <li><strong>Run the gate</strong> against the reference. It reports content that differs, files missing, and files you produced that the reference never declared.</li>
-          <li><strong>Fix the diff and repeat</strong> until the verdict is identical.</li>
-          <li><strong>Dual-run, then cut over</strong> per function, with the gate running on every nightly batch afterwards.</li>
+          <li><strong>Scaffold the job.</strong> <code>migrate new</code> generates the workspace: the contract, the input directory, the reference capture script, and a Rust target skeleton.</li>
+          <li><strong>Seal the reference.</strong> <code>migrate reference</code> runs the legacy program once and seals its output files as the contract. It refuses to reseal without --force, so the goal posts cannot quietly move.</li>
+          <li><strong>Rewrite the routine</strong> in the target. By hand, or drafted by an agent. The skeleton names the inputs and outputs; the logic is the work.</li>
+          <li><strong>Run the gate.</strong> <code>migrate verify</code> builds the target, runs it, and compares byte for byte. Content that differs, files missing, files the reference never declared: it names each one, and appends the verdict to the job's trail.</li>
+          <li><strong>Fix the diff and repeat</strong> until the verdict is identical. Then dual-run, then cut over per function, with the gate on every nightly batch afterwards.</li>
         </ol>
       </div>
       <div class="codeblock">
-        <pre><code># the legacy output is the contract
-$ bylazora-core validate legacy_out/ migrated_out/
+        <pre><code># one job becomes a sealed workspace
+$ bylazora-core migrate new batch-txn \
+    --input transactions.csv --input balances.csv \
+    --output final_balances.csv --output summary_report.csv \
+    --copybook TXNREC.cpy --cobol-source BATCHTXN.cob
+
+# the legacy output is the contract
+$ bylazora-core migrate reference batch-txn
+sealed reference: 2 file(s)
+
+# write the routine, then run the gate
+$ bylazora-core migrate verify batch-txn
 IDENTICAL
 
-# when it is not, it names the reason
-final_balances.csv: content differs
-summary_report.csv: missing in migrated_out/
-
-# get the field schema before rewriting
-$ bylazora-core copybook parse ACCOUNTS.cpy
-
-# an agent can drive the same loop
-$ bylazora-core mcp</code></pre>
+# the verdict trail is append-only
+$ bylazora-core migrate status batch-txn
+job batch-txn (rust)
+  inputs : transactions.csv, balances.csv
+  outputs: final_balances.csv, summary_report.csv
+  sealed : yes
+  verdict: IDENTICAL (attempt 1, 0 diffs)</code></pre>
       </div>
     </div>
     <div class="grid-2x2">
@@ -166,7 +174,7 @@ $ bylazora-core mcp</code></pre>
         <p>The benchmark runtime is one workload shape today, compiled in and byte-exact: per-account aggregation over transaction files. Estate intake, reading copybooks, DB2 schemas and JCL into job specifications, and pluggable backends are roadmap, not shipped. The gate itself is general now, and it is the piece that is hard to replace.</p>
       </div>
     </div>
-    <p class="note">The worked example is in the repository: a COBOL batch program and its migrated implementation, with the gate wired into CI so a single differing byte fails the build. That is the template. Copy the shape, swap in your job.</p>
+    <p class="note">The worked example is in the repository: sample/ is a sealed migrate workspace, a COBOL batch job with its GnuCOBOL capture and its migrated Rust target. CI re-derives the reference from the COBOL, asserts the seal, and runs the gate, so a single differing byte fails the build. That is the template. Copy the shape, swap in your job.</p>
   </div>
 </section>
 
@@ -179,7 +187,7 @@ $ bylazora-core mcp</code></pre>
         <h3>Why this is the point</h3>
         <p>Every other AI coding tool asks you to trust the model. This one makes the model pass a gate. A hallucinated translation is not a style argument here: it is a byte difference, and the difference is the feedback the agent iterates against. Your assistant can be as inventive as it likes while drafting, because nothing reaches production without reproducing the legacy output exactly.</p>
         <p>That matters most where the work is worst. A real estate is not one program, it is thousands, each with its own copybook, fixed-point fields, batch window and dead code. The gate turns that from an act of faith into a queue of diffs, and the queue is what your team actually reviews.</p>
-        <p>The <a href="https://github.com/bylazora/bylazora/tree/main/agents">rule pack</a> teaches the agent the invariants before it drafts a line, and the <a href="https://github.com/bylazora/bylazora/tree/main/engine/src/mcp.rs">MCP server</a> is open source with the rest of the engine. Get the binary for <a href="#download">every platform</a>.</p>
+        <p>The <a href="https://github.com/bylazora/bylazora/tree/main/agents">rule pack</a> teaches the agent the invariants before it drafts a line, and the <a href="https://github.com/bylazora/bylazora/tree/main/engine/src/mcp.rs">MCP server</a> is open source with the rest of the engine. The rule pack and a worked workspace template also ship on npm: <code>npm install bylazora</code>. Get the binary for <a href="#download">every platform</a>.</p>
       </div>
       <div class="codeblock">
         <pre><code>$ bylazora-core mcp
@@ -200,6 +208,8 @@ validate        byte-compare against the
                 legacy reference
 bench           run a tier, report wall time
 copybook_parse  read a COBOL copybook
+migrate_verify  build + gate a job workspace
+migrate_status  the contract and the verdict
 
 # the one thing no tool can do
 mark a run proven    <- the validator only</code></pre>
@@ -236,6 +246,10 @@ cargo install bylazora-core
 
 # or the signed binary for your platform
 # https://github.com/bylazora/bylazora/releases
+
+# the agent pack on npm: rules/ and the
+# migrate workspace template
+npm install bylazora
 
 # then point your agent at the gate
 bylazora-core mcp</code></pre>
