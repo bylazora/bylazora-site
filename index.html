@@ -78,7 +78,7 @@ cuda    68.8x     8.75s   IDENTICAL
     <div class="grid-2x2">
       <div class="card">
         <h3>What it is</h3>
-        <p>A standard and a tool. The standard: a migrated workload's outputs must equal the legacy COBOL reference byte for byte, or the migration is not accepted. The tool: one open-source binary that checks exactly that, and then runs the workload in production. It is the difference between being told a migration is fine and being shown that it is.</p>
+        <p>A standard and a tool. The standard: a migrated workload's outputs must equal the legacy COBOL reference byte for byte, or the migration is not accepted. The tool: an open-source gate that checks exactly that, on any job's outputs, whoever or whatever produced them. It is the difference between being told a migration is fine and being shown that it is. <a href="#how">How you would use it</a>.</p>
       </div>
       <div class="card">
         <h3>Why it is on your desk</h3>
@@ -122,6 +122,51 @@ cuda    68.8x     8.75s   IDENTICAL
       <tr><td>Regulatory freeze, zero tolerance for change</td><td>Rehost COBOL on cloud</td></tr>
       <tr><td>Medium complexity, staged transition</td><td>AI-assisted, then per-function decision</td></tr>
     </table>
+  </div>
+</section>
+
+<section id="how" class="section">
+  <div class="wrap">
+    <h2>How you would actually use it</h2>
+    <p class="section-lede">A migration is a queue of jobs, and every job is the same loop. The gate does not care what language the replacement is written in, who wrote it, or whether an agent drafted it: it compares outputs, byte for byte. The reference directory defines the contract.</p>
+    <div class="two-col">
+      <div>
+        <h3>The loop, once per job</h3>
+        <ol class="cycle">
+          <li><strong>Capture the reference.</strong> Run the legacy program once on fixed input and keep its output files. That directory is the contract: it declares what the outputs are.</li>
+          <li><strong>Rewrite the routine</strong> in whatever you are willing to run in production. Rust, Java, Python, a warehouse query, a scheduler job. By hand, or drafted by an agent.</li>
+          <li><strong>Run the gate</strong> against the reference. It reports content that differs, files missing, and files you produced that the reference never declared.</li>
+          <li><strong>Fix the diff and repeat</strong> until the verdict is identical.</li>
+          <li><strong>Dual-run, then cut over</strong> per function, with the gate running on every nightly batch afterwards.</li>
+        </ol>
+      </div>
+      <div class="codeblock">
+        <pre><code># the legacy output is the contract
+$ bylazora-core validate legacy_out/ migrated_out/
+IDENTICAL
+
+# when it is not, it names the reason
+final_balances.csv: content differs
+summary_report.csv: missing in migrated_out/
+
+# get the field schema before rewriting
+$ bylazora-core copybook parse ACCOUNTS.cpy
+
+# an agent can drive the same loop
+$ bylazora-core mcp</code></pre>
+      </div>
+    </div>
+    <div class="grid-2x2">
+      <div class="card">
+        <h3>What it is not</h3>
+        <p>It is not a COBOL translator. There is no compiler or transpiler in it: the copybook parser reads data layouts, not programs. The rewrite is yours, your team's, or your agents'. What the engine supplies is the part that decides whether a rewrite is acceptable.</p>
+      </div>
+      <div class="card">
+        <h3>Where the runtime stands</h3>
+        <p>The benchmark runtime is one workload shape today, compiled in and byte-exact: per-account aggregation over transaction files. Estate intake, reading copybooks, DB2 schemas and JCL into job specifications, and pluggable backends are roadmap, not shipped. The gate itself is general now, and it is the piece that is hard to replace.</p>
+      </div>
+    </div>
+    <p class="note">The worked example is in the repository: a COBOL batch program and its migrated implementation, with the gate wired into CI so a single differing byte fails the build. That is the template. Copy the shape, swap in your job.</p>
   </div>
 </section>
 
